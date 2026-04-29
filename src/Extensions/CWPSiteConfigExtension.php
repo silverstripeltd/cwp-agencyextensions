@@ -7,11 +7,10 @@ use CWP\AgencyExtensions\Forms\FontPickerField;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Image;
 use SilverStripe\Core\Injector\Injector;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FileHandleField;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\Requirements;
@@ -28,11 +27,11 @@ use SilverStripe\View\Requirements;
  * @method Image Logo()
  * @method Image LogoRetina()
  *
- * @extends DataExtension<SiteConfig>
+ * @extends Extension<SiteConfig>
  */
-class CWPSiteConfigExtension extends DataExtension
+class CWPSiteConfigExtension extends Extension
 {
-    private static $db = array(
+    private static array $db = array(
         'FooterLogoLink' => 'Varchar(255)',
         'FooterLogoDescription' => 'Varchar(255)',
         'FooterLogoSecondaryLink' => 'Varchar(255)',
@@ -48,7 +47,7 @@ class CWPSiteConfigExtension extends DataExtension
         'TextLinkColor' => 'Varchar(50)',
     );
 
-    private static $has_one = array(
+    private static array $has_one = array(
         'Logo' => Image::class,
         'LogoRetina' => Image::class,
         'FooterLogo' => Image::class,
@@ -61,7 +60,7 @@ class CWPSiteConfigExtension extends DataExtension
         'AppleTouchIcon57' => File::class
     );
 
-    private static $owns = [
+    private static array $owns = [
         'Logo',
         'LogoRetina',
         'FooterLogo',
@@ -78,17 +77,15 @@ class CWPSiteConfigExtension extends DataExtension
      * Defines if the theme colour picker is enabled in the CMS
      *
      * @config
-     * @var boolean
      */
-    private static $enable_theme_color_picker = false;
+    private static bool $enable_theme_color_picker = false;
 
     /**
      * Defines the theme fonts that can be selected via the CMS
      *
      * @config
-     * @var array
      */
-    private static $theme_fonts = [
+    private static array $theme_fonts = [
         'nunito-sans' => 'Nunito Sans',
         'fira-sans' => 'Fira Sans',
         'merriweather' => 'Merriweather',
@@ -98,9 +95,8 @@ class CWPSiteConfigExtension extends DataExtension
      * Defines the theme colours that can be selected via the CMS
      *
      * @config
-     * @var array
      */
-    private static $theme_colors = [
+    private static array $theme_colors = [
         'default-accent' => [
             'Title' => 'Default',
             'CSSClass' => 'default-accent',
@@ -404,11 +400,11 @@ class CWPSiteConfigExtension extends DataExtension
     protected function addThemeColorPicker(FieldList $fields)
     {
         // Only show theme colour selector if enabled
-        if (!$this->owner->config()->get('enable_theme_color_picker')) {
+        if (!$this->getOwner()->config()->get('enable_theme_color_picker')) {
             return $this;
         }
 
-        $fonts = $this->owner->config()->get('theme_fonts');
+        $fonts = $this->getOwner()->config()->get('theme_fonts');
 
         // Import each font via the google fonts api to render font preview
         foreach ($fonts as $fontTitle) {
@@ -521,7 +517,7 @@ class CWPSiteConfigExtension extends DataExtension
      */
     public function getThemeOptionsExcluding($excludedColors = [])
     {
-        $themeColors = $this->owner->config()->get('theme_colors');
+        $themeColors = $this->getOwner()->config()->get('theme_colors');
         $options = [];
 
         foreach ($themeColors as $themeColor) {
@@ -541,8 +537,8 @@ class CWPSiteConfigExtension extends DataExtension
      */
     public function onAfterWrite()
     {
-        if (!$this->owner->hasExtension(Versioned::class)) {
-            $this->owner->publishRecursive();
+        if (!$this->getOwner()->hasExtension(Versioned::class)) {
+            $this->getOwner()->publishRecursive();
         }
     }
 
@@ -553,10 +549,10 @@ class CWPSiteConfigExtension extends DataExtension
      */
     public function onBeforeWrite()
     {
-        $colorPickerEnabled = $this->owner->config()->get('enable_theme_color_picker');
+        $colorPickerEnabled = $this->getOwner()->config()->get('enable_theme_color_picker');
 
-        if ($colorPickerEnabled && !$this->owner->HeaderBackground) {
-            $this->owner->update([
+        if ($colorPickerEnabled && !$this->getOwner()->HeaderBackground) {
+            $this->getOwner()->update([
                 'MainFontFamily' => FontPickerField::DEFAULT_VALUE,
                 'HeaderBackground' => 'default-background',
                 'NavigationBarBackground' => 'default-background',

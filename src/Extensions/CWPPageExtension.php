@@ -3,7 +3,6 @@
 namespace CWP\AgencyExtensions\Extensions;
 
 use PageController;
-use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\Core\Extension;
 use SilverStripe\SiteConfig\SiteConfig;
 
@@ -14,11 +13,8 @@ class CWPPageExtension extends Extension
 {
     /**
      * See BasePage_Controller::results()
-     *
-     * @param CwpSearchResult $results
-     * @param array $properties
      */
-    public function updateSearchResults(&$results, &$properties)
+    public function updateSearchResults(&$results, &$properties): void
     {
         // Customise empty results
         $customNoSearchResultsText = SiteConfig::current_site_config()->NoSearchResults;

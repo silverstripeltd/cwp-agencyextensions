@@ -9,11 +9,7 @@ use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\TextField;
-use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Forms\TreeDropdownField;
-use SilverStripe\Forms\LabelField;
-use SilverStripe\Forms\CheckboxField;
-use SilverStripe\Forms\CompositeField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\FileHandleField;
@@ -26,15 +22,15 @@ use SilverStripe\Forms\FileHandleField;
  */
 class CarouselItem extends DataObject
 {
-    private static $table_name = 'CarouselItem';
+    private static string $table_name = 'CarouselItem';
 
-    private static $extensions = [
+    private static array $extensions = [
         Versioned::class
     ];
 
-    private static $versioned_gridfield_extensions = true;
+    private static bool $versioned_gridfield_extensions = true;
 
-    private static $db = [
+    private static array $db = [
         'Title' => 'Varchar(255)',
         'Content' => 'HTMLText',
         'SortOrder' => 'Int',
@@ -42,18 +38,18 @@ class CarouselItem extends DataObject
         'SecondaryCallToActionLabel' => 'Varchar(255)'
     ];
 
-    private static $has_one = [
+    private static array $has_one = [
         'Parent' => BaseHomePage::class,
         'Image' => Image::class,
         'PrimaryCallToAction' => SiteTree::class,
         'SecondaryCallToAction' => SiteTree::class
     ];
 
-    private static $owns = [
+    private static array $owns = [
         'Image'
     ];
 
-    private static $summary_fields = [
+    private static array $summary_fields = [
         'Image.CMSThumbnail' => 'Image',
         'Title' => 'Title',
         'Content.FirstSentence' => 'Text',
@@ -61,7 +57,7 @@ class CarouselItem extends DataObject
         'SecondaryCallToAction.Title' => 'Secondary CTA'
     ];
 
-    private static $searchable_fields = [
+    private static array $searchable_fields = [
         'Title',
         'Content'
     ];

@@ -5,7 +5,7 @@ namespace CWP\AgencyExtensions\Extensions;
 use CWP\AgencyExtensions\Model\CarouselItem;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\GridField\GridField;
@@ -16,34 +16,32 @@ use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\HasManyList;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
-use SilverStripe\Forms\GridField\GridFieldVersionedState;
-use SilverStripe\Forms\LiteralField;
 
 /**
  * @method HasManyList<CarouselItem> CarouselItems()
  *
- * @extends DataExtension<SiteTree>
+ * @extends Extension<SiteTree>
  */
-class CarouselPageExtension extends DataExtension
+class CarouselPageExtension extends Extension
 {
-    private static $db = [
+    private static array $db = [
         'CarouselTitle' => 'Text',
     ];
 
-    private static $has_many = [
+    private static array $has_many = [
         'CarouselItems' => CarouselItem::class,
     ];
 
-    private static $owns = [
+    private static array $owns = [
         'CarouselItems',
     ];
 
     /**
      * @return DataList<CarouselItem>
      */
-    public function getCarouselItems()
+    public function getCarouselItems(): DataList
     {
-        return $this->owner->getComponents('CarouselItems')->sort('SortOrder');
+        return $this->getOwner()->getComponents('CarouselItems')->sort('SortOrder');
     }
 
     /**
@@ -51,7 +49,7 @@ class CarouselPageExtension extends DataExtension
      *
      * @param FieldList $fields
      */
-    public function updateCMSFields(FieldList $fields)
+    public function updateCMSFields(FieldList $fields): void
     {
         $gridField = GridField::create(
             'CarouselItems',
