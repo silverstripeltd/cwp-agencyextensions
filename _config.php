@@ -1,7 +1,7 @@
 <?php
 
 use SilverStripe\Core\Environment;
-use SilverStripe\Forms\HTMLEditor\TinyMCEConfig;
+use SilverStripe\TinyMCE\TinyMCEConfig;
 
 // CWP_AGENCY_DISABLE_FONTAWESOME_PLUGIN used to control whether an actual tinymce plugin was used.
 // CWP_AGENCY_ENABLE_FONTAWESOME_STYLES replaces it as the inverse, since that plugin is no longer available.
