@@ -27,6 +27,6 @@ Name: agencyextensionsfontawesome
 Only:
   envvarset: CWP_AGENCY_ENABLE_FONTAWESOME_STYLES
 ---
-SilverStripe\Forms\HTMLEditor\TinyMCEConfig:
+SilverStripe\TinyMCE\TinyMCEConfig:
   editor_css:
     - "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
