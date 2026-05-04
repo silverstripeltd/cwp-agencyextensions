@@ -19,7 +19,7 @@ class ColorPickerField extends SingleSelectField
 
         $schemaData['source'] = $this->getSource();
         $schemaData['name'] = $this->getName();
-        $schemaData['value'] = $this->Value();
+        $schemaData['value'] = $this->getValue();
 
         return $schemaData;
     }
